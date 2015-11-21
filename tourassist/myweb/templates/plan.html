@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}计划信息{% endblock title %}
+
+{% block content2 %}
+    
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+            <h3 class="text-center">
+                {{planTitle}}
+            </h3>
+            <p>
+                <table>
+                    <tr>
+                        <td><strong>【出发地】：</strong></td>
+                        <td>{{}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>【目的地】：</strong></td>
+                        <td>{{}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>【出发日】：</strong></td>
+                        <td>{{}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>【返程日】：</strong></td>
+                        <td>{{}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>【当前人数/计划人数】：</strong></td>
+                        <td>{{}}人/{{}}人</td>
+                    </tr>
+                    <tr>
+                        <td><strong>【可能经过的地方】：</strong></td>
+                        
+                    </tr>
+                    <tr><td>{{}}</td></tr>
+                    <tr>
+                        <td><strong>【计划简介】:</strong></td>
+                    </tr>
+                    <tr><td>{{}}</td></tr>
+                    
+                </table>
+            </p>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-2">
+                    <button class="btn btn-default" type="button">
+                        加入
+                    </button>
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-2">
+                    <button class="btn btn-default" type="button">
+                        返回
+                    </button>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+
+        </div>
+        <div class="col-md-4">
+        </div>
+    </div>
+</div>
+{% endblock content2 %}

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}用户信息{% endblock title %}
+
+{% block content2 %}
+    
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-4">
+                    <img alt="Bootstrap Image Preview" src="http://lorempixel.com/140/140/" />
+                </div>
+                <div class="col-md-8">
+                    <p>
+                        <table>
+                            <tr><td><h4><strong>用户名：</strong>{{user.username}}</h4></td></tr>
+                            <tr><td><h4><strong>邮  箱：</strong>{{user.email}}</h4></td></tr>
+                            <tr><td><h4><strong>所在地：</strong>{{userprofile.location}}</h4></td></tr>
+                            <tr><td><h4>
+                                <strong>性  别：</strong>{{userprofile.sex}}</h4></td></tr>  
+                            <tr><td><h4><strong>年  龄：</strong>{{age}}</h4></td></tr>
+                                                      
+                        </table>
+
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>
+                        往期出行计划：
+                    </h3>
+                </div>
+                <div class="col-md-4">
+                    <p>
+                        <table class="table table-bordered">
+                            {% if used_plans %}
+                                {% for p in used_plans %}
+                                    <tr><td><a href="">{{p.title}}</a></td></tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr><td>无</td></tr>
+                            {% endif %}
+                        </table>
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>
+                        未来出行计划：
+                    </h3>
+                </div>
+                <div class="col-md-4">
+                    <p>
+                        <table class="table table-bordered">
+                            {% if using_plans %}
+                                {% for p in using_plans %}
+                                    <tr><td><a href="">{{p.title}}</a></td></tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr><td>无</td></tr>
+                            {% endif %}
+                        </table>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                {% if user.username == username %}
+                <div class="col-md-4">
+                    <a href="/editProfile/">
+                    <button class="btn btn-default btn-block" type="button">
+                        修改
+                    </button>
+                    </a>
+                </div>
+                {% else %}
+                <div class="col-md-2"></div>
+                {% endif %}
+                <div class="col-md-4">
+                    <button class="btn btn-default btn-block" type="button" onclick="javascript:history.back(-1)">
+                        返回
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock content2 %}
