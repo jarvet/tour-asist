@@ -38,7 +38,7 @@
                         <table class="table table-bordered">
                             {% if used_plans %}
                                 {% for p in used_plans %}
-                                    <tr><td><a href="">{{p.title}}</a></td></tr>
+                                    <tr><td><a href="/showPlan/{{p.id}}">{{p.title}}</a></td></tr>
                                 {% endfor %}
                             {% else %}
                                 <tr><td>无</td></tr>
@@ -59,7 +59,7 @@
                         <table class="table table-bordered">
                             {% if using_plans %}
                                 {% for p in using_plans %}
-                                    <tr><td><a href="">{{p.title}}</a></td></tr>
+                                    <tr><td><a href="/showPlan/{{p.id}}">{{p.title}}</a></td></tr>
                                 {% endfor %}
                             {% else %}
                                 <tr><td>无</td></tr>

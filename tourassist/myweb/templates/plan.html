@@ -10,52 +10,53 @@
         </div>
         <div class="col-md-4">
             <h3 class="text-center">
-                {{planTitle}}
+                {{plan.title}}
             </h3>
             <p>
                 <table>
                     <tr>
                         <td><strong>【出发地】：</strong></td>
-                        <td>{{}}</td>
+                        <td>{{plan.starting}}</td>
                     </tr>
                     <tr>
                         <td><strong>【目的地】：</strong></td>
-                        <td>{{}}</td>
+                        <td>{{plan.destination}}</td>
                     </tr>
                     <tr>
                         <td><strong>【出发日】：</strong></td>
-                        <td>{{}}</td>
+                        <td>{{plan.start_time}}</td>
                     </tr>
                     <tr>
                         <td><strong>【返程日】：</strong></td>
-                        <td>{{}}</td>
+                        <td>{{plan.end_time}}</td>
                     </tr>
                     <tr>
                         <td><strong>【当前人数/计划人数】：</strong></td>
-                        <td>{{}}人/{{}}人</td>
+                        <td><a href="">{{current_person}}</a>人/{{plan.total_person}}人</td>
                     </tr>
+                    <!--
                     <tr>
                         <td><strong>【可能经过的地方】：</strong></td>
-                        
                     </tr>
-                    <tr><td>{{}}</td></tr>
+                    <tr><td></td></tr>
+                    -->
                     <tr>
                         <td><strong>【计划简介】:</strong></td>
                     </tr>
-                    <tr><td>{{}}</td></tr>
+                    <tr><td>{{plan.description}}</td></tr>
                     
                 </table>
             </p>
             <div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-2">
-                    <button class="btn btn-default" type="button">
+                    <button class="btn btn-default" type="button" >
                         加入
                     </button>
                 </div>
                 <div class="col-md-2"></div>
                 <div class="col-md-2">
-                    <button class="btn btn-default" type="button">
+                    <button class="btn btn-default" type="button" onclick="javascript:history.back(-1)">
                         返回
                     </button>
                 </div>

@@ -25,6 +25,8 @@ urlpatterns = [
     url(r'^$', views.main),
     url(r'^showProfile/$', views.showProfile),
     url(r'^editProfile/$', views.editProfile),
-    url(r'^loginAndRegister/$',views.loginAndRegister),
+    url(r'^loginAndRegister/$', views.loginAndRegister),
+    url(r'^addPlan/$', views.addPlan),
+    url(r'^showPlan/(?P<ID>\d+)/$', views.showPlan),
 #    url(r'^profile/$', views.userProfile),
 ]

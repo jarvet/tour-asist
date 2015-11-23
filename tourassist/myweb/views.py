@@ -94,27 +94,63 @@ def editProfile(request):
     username = request.session.get('username', '')
     user = User.objects.get(username=username)
     userprofile = UserProfile.objects.get(user=user)
-    teams = chain(Team.objects.filter(master=userprofile), Team.objects.filter(participant=userprofile))
+  #  teams = chain(Team.objects.filter(master=userprofile), Team.objects.filter(participant=userprofile)).distinct()
+    teams = Team.objects.filter(master=userprofile) | Team.objects.filter(participant=userprofile)
+    teams.distinct()
     used_plans = []
     using_plans = []
     for team in teams:
         p = team.plan
-        if p.start_time<current_time:
+        if p.start_time < current_time:
             used_plans.append(p)
         else:
             using_plans.append(p)
 
-    age =current_time.year-userprofile.birthday.year
+    age = current_time.year-userprofile.birthday.year
 
     if request.POST:
         userprofile.sex = request.POST.get('new_sex', '')
         userprofile.location = request.POST.get('new_location', '')
         userprofile.birthday = request.POST.get('new_birthday', '9999-12-31')
-        print userprofile.birthday
         userprofile.save()
         return HttpResponseRedirect('/showProfile/')
 
 
-    content = {"username":username, "user":user, "userprofile":userprofile,
+    content = {"username":username, "user":user, "userprofile":userprofile,\
                 "used_plans":used_plans, "using_plans":using_plans, "age":age}
     return render(request, "edit_profile.html", content)
+
+@login_required
+def addPlan(request):
+    status = ''
+    username = request.session.get('username', '')
+    user = User.objects.get(username=username)
+    userprofile = UserProfile.objects.get(user=user)
+    if request.POST:
+        post = request.POST
+        newplan = Plan(title=post.get('title', ''),\
+                    description=post.get('description', ''),\
+                    starting=post.get('starting', ''),\
+                    destination=post.get('destination', ''),\
+                    total_person=post.get('total_person', ''),\
+                    start_time=post.get('start_time', ''),\
+                    end_time=post.get('end_time', ''))
+        newplan.save()
+        newteam = Team(master=userprofile, plan=newplan)
+        newteam.save()
+#        newteam.participant.add(userprofile)
+        status = "success"
+    content = {"status":status, "username":username}
+    return render(request, "add_plan.html", content)
+
+@login_required
+def showPlan(request, ID):
+    username = request.session.get('username', '')
+    user = User.objects.get(username=username)
+    userprofile = UserProfile.objects.get(user=user)
+    plan = Plan.objects.get(id=ID)
+    team = Team.objects.get(plan=plan)
+    travelers = team.participant
+    current_person = travelers.count() + 1
+    content = {"username":username, "plan":plan, "current_person":current_person}
+    return render(request, "plan.html", content)

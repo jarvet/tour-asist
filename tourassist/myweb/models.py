@@ -18,6 +18,6 @@ class Plan(models.Model):
     end_time = models.DateField()
 
 class Team(models.Model):
-    master = models.OneToOneField(UserProfile, related_name="master")
+    master = models.ForeignKey(UserProfile, related_name="master")
     participant = models.ManyToManyField(UserProfile, related_name='participant')
     plan = models.OneToOneField(Plan, related_name="plan")
