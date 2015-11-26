@@ -3,10 +3,11 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, related_name="user")
     sex = models.CharField(max_length=20)
     location = models.CharField(max_length=100)
     birthday = models.DateField()
+    avatar = models.ImageField(upload_to= './image/', default='./image/default.jpg')
 
 class Plan(models.Model):
     title = models.CharField(max_length=255)
@@ -16,6 +17,11 @@ class Plan(models.Model):
     total_person = models.IntegerField()
     start_time = models.DateField()
     end_time = models.DateField()
+    create_time = models.DateField(auto_now=True)
+
+    class Meta:
+        #leatest created, nearest start time, nearest end time
+        ordering = ['-create_time', 'start_time', 'end_time']
 
 class Team(models.Model):
     master = models.ForeignKey(UserProfile, related_name="master")

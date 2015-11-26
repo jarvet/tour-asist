@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load birthday_to_age %}
 
 {% block title %}计划信息{% endblock title %}
 
@@ -9,50 +10,68 @@
         <div class="col-md-4">
         </div>
         <div class="col-md-4">
-            <h3 class="text-center">
+    {% if status == 'success' %}
+        <div class="well">
+            <h2 class="text-success text-center">加入成功</h2>
+        </div>
+    {% elif status == 'too_many' %}
+        <div class="well">
+            <h2 class="text-warning text-center">无法加入</h2>
+        </div>
+    {% endif %}
+            <h2 class="text-center">
                 {{plan.title}}
-            </h3>
+            </h2>
             <p>
                 <table>
                     <tr>
-                        <td><strong>【出发地】：</strong></td>
-                        <td>{{plan.starting}}</td>
+                        <td><h4><strong>【出发地】：</strong></h4></td>
+                        <td><h4>{{plan.starting}}</h4></td>
                     </tr>
                     <tr>
-                        <td><strong>【目的地】：</strong></td>
-                        <td>{{plan.destination}}</td>
+                        <td><h4><strong>【目的地】：</strong></h4></td>
+                        <td><h4>{{plan.destination}}</h4></td>
                     </tr>
                     <tr>
-                        <td><strong>【出发日】：</strong></td>
-                        <td>{{plan.start_time}}</td>
+                        <td><h4><strong>【出发日】：</strong></h4></td>
+                        <td><h4>{{plan.start_time}}</h4></td>
                     </tr>
                     <tr>
-                        <td><strong>【返程日】：</strong></td>
-                        <td>{{plan.end_time}}</td>
+                        <td><h4><strong>【返程日】：</strong></h4></td>
+                        <td><h4>{{plan.end_time}}</h4></td>
                     </tr>
                     <tr>
-                        <td><strong>【当前人数/计划人数】：</strong></td>
-                        <td><a href="">{{current_person}}</a>人/{{plan.total_person}}人</td>
+                        <td><h4><strong>【当前人数/计划人数】：</strong></h4></td>
+                        <td><h4><a href="/showTeam/{{plan.id}}">{{current_person}}</a>人/{{plan.total_person}}人</h4></td>
                     </tr>
                     <!--
                     <tr>
-                        <td><strong>【可能经过的地方】：</strong></td>
+                        <td><h4><strong>【可能经过的地方】：</strong></h4></td>
                     </tr>
                     <tr><td></td></tr>
                     -->
                     <tr>
-                        <td><strong>【计划简介】:</strong></td>
+                        <td><h4><strong>【计划简介】:</strong></h4></td>
                     </tr>
-                    <tr><td>{{plan.description}}</td></tr>
+                    <tr><td><h4>{{plan.description}}</h4></td></tr>
                     
                 </table>
             </p>
             <div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-2">
-                    <button class="btn btn-default" type="button" >
-                        加入
-                    </button>
+                    {% if disable  or status == 'success' %}
+                        <button class="btn btn-default" type="submit" disabled="disable">
+                            加入
+                        </button>
+                    {% else %}
+                        <form role="form" method="post">
+                        {% csrf_token %}
+                            <button class="btn btn-default" type="submit">               
+                                加入
+                            </button>
+                        </form>
+                    {% endif %}
                 </div>
                 <div class="col-md-2"></div>
                 <div class="col-md-2">

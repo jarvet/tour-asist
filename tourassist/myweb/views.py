@@ -6,12 +6,24 @@ from myweb.models import UserProfile, Team, Plan
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from itertools import chain
+from django.db.models import Count
 import datetime
+from django import forms
+
+class ImgForm(forms.Form):
+    img = forms.ImageField()
 
 @login_required
 def main(request):
     username = request.session.get('username', '')
-    return render(request, "main.html", {'username':username})
+    userid = request.session.get('userid', '')
+    plans = Plan.objects.filter(start_time__gte=datetime.date.today())
+    userprofiles = UserProfile.objects.annotate(num_teams=Count('master')).order_by('-num_teams')
+    if plans.count()>5: plans = plans[:5]
+    if userprofiles.count()>5: userprofiles[:5]
+
+    content = {'username':username, "userid":userid, 'plans':plans, 'userprofiles':userprofiles}
+    return render(request, "main.html", content)
 
 @login_required
 def userLogout(request):
@@ -54,6 +66,7 @@ def loginAndRegister(request):
                     if user.is_active:
                         auth.login(request, user)
                         request.session['username'] = username
+                        request.session['userid'] = user.id
                         return HttpResponseRedirect('/')
                     else:
                         status = 'not_active'
@@ -65,16 +78,15 @@ def loginAndRegister(request):
     return render(request, 'sign_in.html', content)
 
 @login_required
-def showProfile(request):
+def showProfile(request, UID):
     current_time = datetime.date.today()
     username = request.session.get('username', '')
-    user = User.objects.get(username=username)
+    userid = UID
+    user = User.objects.get(id=userid)
     userprofile = UserProfile.objects.get(user=user)
     teams = chain(Team.objects.filter(master=userprofile), Team.objects.filter(participant=userprofile))
     used_plans = []
     using_plans = []
-    print userprofile.sex
-    print type(userprofile.sex)
     for team in teams:
         p = team.plan
         if p.start_time<current_time:
@@ -82,16 +94,15 @@ def showProfile(request):
         else:
             using_plans.append(p)
 
-    age =current_time.year-userprofile.birthday.year
-
-    content = {"username":username, "user":user, "userprofile":userprofile,
-                "used_plans":used_plans, "using_plans":using_plans, "age":age}
+    content = {"username":username, "userid":userid, "user":user, "userprofile":userprofile,
+                "used_plans":used_plans, "using_plans":using_plans}
     return render(request, "profile.html", content)
 
 @login_required
 def editProfile(request):
     current_time = datetime.date.today()
     username = request.session.get('username', '')
+    userid = request.session.get('userid', '')
     user = User.objects.get(username=username)
     userprofile = UserProfile.objects.get(user=user)
   #  teams = chain(Team.objects.filter(master=userprofile), Team.objects.filter(participant=userprofile)).distinct()
@@ -112,11 +123,13 @@ def editProfile(request):
         userprofile.sex = request.POST.get('new_sex', '')
         userprofile.location = request.POST.get('new_location', '')
         userprofile.birthday = request.POST.get('new_birthday', '9999-12-31')
+        if request.FILES:
+            userprofile.avatar = request.FILES['img']
         userprofile.save()
-        return HttpResponseRedirect('/showProfile/')
+        return HttpResponseRedirect('/showProfile/'+str(userid))
 
 
-    content = {"username":username, "user":user, "userprofile":userprofile,\
+    content = {"username":username, "userid":userid, "user":user, "userprofile":userprofile,\
                 "used_plans":used_plans, "using_plans":using_plans, "age":age}
     return render(request, "edit_profile.html", content)
 
@@ -124,6 +137,7 @@ def editProfile(request):
 def addPlan(request):
     status = ''
     username = request.session.get('username', '')
+    userid = request.session.get('userid', '')
     user = User.objects.get(username=username)
     userprofile = UserProfile.objects.get(user=user)
     if request.POST:
@@ -140,17 +154,54 @@ def addPlan(request):
         newteam.save()
 #        newteam.participant.add(userprofile)
         status = "success"
-    content = {"status":status, "username":username}
+    content = {"status":status, "username":username, "userid":userid}
     return render(request, "add_plan.html", content)
 
 @login_required
 def showPlan(request, ID):
     username = request.session.get('username', '')
+    userid = request.session.get('userid', '')
     user = User.objects.get(username=username)
     userprofile = UserProfile.objects.get(user=user)
     plan = Plan.objects.get(id=ID)
     team = Team.objects.get(plan=plan)
     travelers = team.participant
+    mastername = team.master.user.username
+    if mastername==username or userprofile in team.participant.all():
+        disable = True
+    else:
+        disable = False
     current_person = travelers.count() + 1
-    content = {"username":username, "plan":plan, "current_person":current_person}
+########untested#############
+    status = ''
+    if request.POST:
+        if current_person<plan.total_person:
+            status = 'too_many'
+        status = 'success'
+        team.participant.add(userprofile)
+        current_person = travelers.count() + 1
+#############################
+    content = {"username":username, "userid":userid, "plan":plan, \
+            "current_person":current_person, "disable":disable, \
+            "status":status}
     return render(request, "plan.html", content)
+
+@login_required
+def showTeam(request, ID):
+    username = request.session.get('username', '')
+    userid = request.session.get('userid', '')
+    plan = Plan.objects.get(id=ID)
+    team = Team.objects.get(plan=plan)
+    travelers = team.participant.all()
+    master = team.master.user
+    print travelers
+    content = {"username":username, "userid":userid, "master":master,\
+            "travelers":travelers, "plantitle":plan.title, "teamid":team.id}
+    return render(request, "team.html", content)
+
+@login_required
+def kick(request, TID, UID):
+    team = Team.objects.get(id=TID)
+    kicked_person = UserProfile.objects.get(id=UID)
+    team.participant.remove(kicked_person)
+    return HttpResponseRedirect('/showTeam/'+str(team.plan.id))

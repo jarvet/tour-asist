@@ -25,7 +25,7 @@
                          
                         <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                              <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
-                        </button> <a class="navbar-brand" href="#">TripleAmi</a>
+                        </button> <a class="navbar-brand" href="/">TripleAmi</a>
                     </div>
                     
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -45,7 +45,7 @@
                         </form>
                         <ul class="nav navbar-nav navbar-right">
                             {% if username %}
-                                <li><p class="navbar-text">欢迎&nbsp;<a href="/showProfile/" style="color:black">{{username}}</a></p></li>
+                                <li><p class="navbar-text">欢迎&nbsp;<a href="/showProfile/{{userid}}" style="color:black">{{username}}</a></p></li>
                                 <li><a href="/logout/">登出</a></li>
                                 <li>
                                     <a href="/addPlan/">添加计划</a>

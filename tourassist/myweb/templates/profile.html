@@ -10,7 +10,7 @@
         <div class="col-md-6">
             <div class="row">
                 <div class="col-md-4">
-                    <img alt="Bootstrap Image Preview" src="http://lorempixel.com/140/140/" />
+                    <img  src="{% url 'media' userprofile.avatar %}" width="175px" height="175px"/>
                 </div>
                 <div class="col-md-8">
                     <p>
@@ -20,7 +20,8 @@
                             <tr><td><h4><strong>所在地：</strong>{{userprofile.location}}</h4></td></tr>
                             <tr><td><h4>
                                 <strong>性  别：</strong>{{userprofile.sex}}</h4></td></tr>  
-                            <tr><td><h4><strong>年  龄：</strong>{{age}}</h4></td></tr>
+                            {% load birthday_to_age %}
+                            <tr><td><h4><strong>年  龄：</strong>{{userprofile.birthday.year|birthday_to_age}}</h4></td></tr>
                                                       
                         </table>
 

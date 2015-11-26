@@ -6,20 +6,24 @@
     
 <div class="container-fluid">
     <div class="row">
+    <form role="form" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
         <div class="col-md-4"></div>
         <div class="col-md-6">
             <div class="row">
                 <div class="col-md-4">
-                    <img alt="Bootstrap Image Preview" src="http://lorempixel.com/140/140/" />
+                    <p>
+                    <img  src="{% url 'media' userprofile.avatar %}" width="175px" height="175px"/>
+                    </p>
+                    <p>
+                    <input type="file" name="img" id="id_img" style="width:175px">
+                </p>
                 </div>
                 <div class="col-md-8">
                     <p>
                         <table>
                             <tr><td><h4><strong>用户名：</strong>{{user.username}}</h4></td></tr>
                             <tr><td><h4><strong>邮  箱：</strong>{{user.email}}</h4></td></tr>
-
-                            <form role="form" method="post">
-                            {% csrf_token %}
                             <tr><td>
                                 <h4><strong>所在地：</strong></h4>
                                 <input id="location" type="text" required name="new_location" value="{{userprofile.location}}">
@@ -33,7 +37,7 @@
                             </td></tr>  
                             <tr><td>
                                 <h4><strong>生  日：</strong></h4>
-                                <input id="age" type="date" required name="new_birthday" value="{{userprofile.birtyday}}">
+                                <input id="age" type="date" required name="new_birthday" value="{{userprofile.birthday|date:"Y-m-d"}}">
                             </td></tr>  
   
                         </table>
@@ -88,7 +92,7 @@
                         保存
                     </button>
                         
-                    </form>
+                   
                 </div>
                 <div class="col-md-4">
                     <button class="btn btn-default btn-block" type="button" onclick="javascript:history.back(-1)">
@@ -97,7 +101,8 @@
                 </div>
             </div>
 
-        </div>
+        </div> 
+    </form>
     </div>
 </div>
 

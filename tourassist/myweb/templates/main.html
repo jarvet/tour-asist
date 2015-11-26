@@ -6,168 +6,80 @@
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-4">
+            {% for p in plans %}
             <div class="row">
                 <div class="col-md-12">
                     <h2>
-                        推荐路线1
+                        {{p.title}}
                     </h2>
                     <p>
                         <table>
                             <tr>
-                                <td>计划标题：</td>
-                                <td></td>
-                            </tr>
-                            <tr>
                                 <td>出发地：</td>
-                                <td></td>
+                                <td>{{p.starting}}</td>
                             </tr>
                             <tr>
                                 <td>目的地：</td>
-                                <td></td>
+                                <td>{{p.destination}}</td>
                             </tr>
                             <tr>
                                 <td>出发日：</td>
-                                <td></td>
+                                <td>{{p.start_time|date:"Y-m-d" }}</td>
                             </tr>
                             <tr>
                                 <td>返程日：</td>
-                                <td></td>
+                                <td>{{p.end_time|date:"Y-m-d"}}</td>
                             </tr>
                         </table>
                     </p>
                     <p>
-                        <a class="btn" href="#">查看详情</a>
+                        <a class="btn" href="/showPlan/{{p.id}}">查看详情</a>
                     </p>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <h2>
-                        推荐路线2
-                    </h2>
-                    <p>
-                        <table>
-                            <tr>
-                                <td>计划标题：</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>出发地：</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>目的地：</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>出发日：</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>返程日：</td>
-                                <td></td>
-                            </tr>
-                        </table>
-                    </p>
-                    <p>
-                        <a class="btn" href="#">查看详情</a>
-                    </p>
-                </div>
-            </div> 
+            {% endfor %}
         </div>
 
         <div class="col-md-1"></div>
         <div class="col-md-6">
+            {% for u in userprofiles %}
             <div class="row">
                 <div class="col-md-4">
-                    <img class="img-circle" alt="Bootstrap Image Preview" src="http://lorempixel.com/140/140/">
+                    <img class="img-circle" src="{% url 'media' u.avatar %}" width="150px" height="150px">
                 </div>
                 <div class="col-md-8">
                     <h2>
-                        推荐用户1
+                        {{u.user.username}}
                     </h2>
                     <p>
                         <table>
                             <tr>
                                 <td>性别：</td>
-                                <td></td>
+                                <td>{{u.sex}}</td>
                             </tr>
                             <tr>
+                                {% load birthday_to_age %}
                                 <td>年龄：</td>
-                                <td></td>
+                                <td>{{u.birthday.year|birthday_to_age}}</td>
                             </tr>
                             <tr>
-                                <td>出发地：</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>目的地：</td>
-                                <td></td>
+                                <td>所在地：</td>
+                                <td>{{u.location}}</td>
                             </tr>
                             <tr>
                                 <td>邮箱：</td>
-                                <td></td>
+                                <td>{{u.user.email}}</td>
                             </tr>
-                            <tr>
-                                <td>出发日：</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>返程日：</td>
-                                <td></td>
-                            </tr>
+
                         </table>
                     </p>
                     <p>
-                        <a class="btn" href="#">查看详情</a>
+                        <a class="btn" href="/showProfile/{{u.id}}">查看详情</a>
                     </p>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <img class="img-circle" alt="Bootstrap Image Preview" src="http://lorempixel.com/140/140/">
-                </div>
-                <div class="col-md-8">
-                    <h2>
-                        推荐用户2
-                    </h2>
-                    <p>
-                        <table>
-                            <tr>
-                                <td>性别：</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>年龄：</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>出发地：</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>目的地：</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>邮箱：</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>出发日：</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>返程日：</td>
-                                <td></td>
-                            </tr>
-                        </table>
-                    </p>
-                    <p>
-                        <a class="btn" href="#">查看详情</a>
-                    </p>
-                </div>
-            </div>
+            {% endfor %}
+
         </div>
     </div>
     
