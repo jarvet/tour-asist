@@ -23,10 +23,10 @@ from myweb import views
 urlpatterns = [
     #url(r'^admin/', include(admin.site.urls)),
     url(r'^logout/$', views.userLogout),
-    url(r'^$', views.main),
+    url(r'^index/$', views.main),
     url(r'^showProfile/(?P<UID>\d+)$', views.showProfile),
     url(r'^editProfile/$', views.editProfile),
-    url(r'^loginAndRegister/$', views.loginAndRegister),
+    url(r'^$', views.loginAndRegister),
     url(r'^addPlan/$', views.addPlan),
     url(r'^showPlan/(?P<ID>\d+)/$', views.showPlan),
     url(r'^showTeam/(?P<ID>\d+)/$', views.showTeam),

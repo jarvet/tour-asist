@@ -28,12 +28,12 @@ def main(request):
 @login_required
 def userLogout(request):
     auth.logout(request)
-    return HttpResponseRedirect("/loginAndRegister/")#
+    return HttpResponseRedirect("/")#
 
  
 def loginAndRegister(request):
     if request.session.get('username', ''):
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect('/index/')
     status = ''
     username = ''
     if request.POST:
@@ -67,7 +67,7 @@ def loginAndRegister(request):
                         auth.login(request, user)
                         request.session['username'] = username
                         request.session['userid'] = user.id
-                        return HttpResponseRedirect('/')
+                        return HttpResponseRedirect('/index/')
                     else:
                         status = 'not_active'
                 else:
@@ -193,7 +193,7 @@ def showTeam(request, ID):
     plan = Plan.objects.get(id=ID)
     team = Team.objects.get(plan=plan)
     travelers = team.participant.all()
-    master = team.master.user
+    master = team.master
     print travelers
     content = {"username":username, "userid":userid, "master":master,\
             "travelers":travelers, "plantitle":plan.title, "teamid":team.id}
