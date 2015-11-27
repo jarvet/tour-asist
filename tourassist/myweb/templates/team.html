@@ -36,7 +36,7 @@
                             <a href="/showProfile/{{t.user.id}}"><img  src="{% url 'media' t.avatar %}" width="75px" height="75px"/>
                             <h4>{{t.user.username}}</h4></a></td>
                         <td><h4><a href="mailto:{{t.user.email}}">{{t.user.email}}</a></h4></td>
-                        {% if username == master.username %}
+                        {% if username == master.user.username %}
                         <td><a href="/kick/{{teamid}}/{{t.user.id}}" class="btn btn-danger btn-xs" role="button">踢出</a></td>
                         {% endif %}
                     </tr>          
