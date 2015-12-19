@@ -18,6 +18,10 @@
         <div class="well">
             <h2 class="text-warning text-center">无法加入</h2>
         </div>
+    {% elif status == 'exit_success' %}
+        <div class="well">
+            <h2 class="text-warning text-center">退出成功</h2>
+        </div>
     {% endif %}
             <h2 class="text-center">
                 {{plan.title}}
@@ -61,19 +65,32 @@
                 <div class="col-md-2"></div>
                 <div class="col-md-2">
                     {% if disable  or status == 'success' %}
-                        <button class="btn btn-default" type="submit" disabled="disable">
-                            加入
-                        </button>
+                        <form role="form" method="post">
+                        {% csrf_token %}
+                            <button class="btn btn-default" type="submit" name="exit">
+                                退出
+                            </button>
+                        </form>
                     {% else %}
                         <form role="form" method="post">
                         {% csrf_token %}
-                            <button class="btn btn-default" type="submit">               
+                            <button class="btn btn-default" type="submit" name="join">
                                 加入
                             </button>
                         </form>
                     {% endif %}
                 </div>
-                <div class="col-md-2"></div>
+                <div class="col-md-2">
+                    {% if is_master %}
+                        <form role="form" method="post">
+                        {% csrf_token %}
+                            <button class="btn btn-default" type="submit" name="edit">
+                                编辑
+                            </button>
+                        </form>
+                    {% endif %}
+
+                </div>
                 <div class="col-md-2">
                     <button class="btn btn-default" type="button" onclick="javascript:history.back(-1)">
                         返回

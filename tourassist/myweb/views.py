@@ -22,6 +22,19 @@ def main(request):
     if plans.count()>5: plans = plans[:5]
     if userprofiles.count()>5: userprofiles[:5]
 
+    if request.POST and request.POST.has_key('search'):
+        post = request.POST
+        keyword = post["keyword"]
+        if post["SearchMode"] == "profile":
+            tuser = User.objects.filter(username__contains=keyword)
+            userprofiles = UserProfile.objects.filter(user=tuser)
+        elif post["SearchMode"] == "starting":
+            plans = Plan.objects.filter(starting__contains=keyword)
+        elif post["SearchMode"] == "destination":
+            plans = Plan.objects.filter(destination__contains=keyword)
+        elif post["SearchMode"] == "title":
+            plans = Plan.objects.filter(title__contains=keyword)
+
     content = {'username':username, "userid":userid, 'plans':plans, 'userprofiles':userprofiles}
     return render(request, "main.html", content)
 
@@ -157,6 +170,29 @@ def addPlan(request):
     content = {"status":status, "username":username, "userid":userid}
     return render(request, "add_plan.html", content)
 
+def editPlan(request, ID):
+    username = request.session.get('username', '')
+    userid = request.session.get('userid', '')
+    user = User.objects.get(username=username)
+    userprofile = UserProfile.objects.get(user=user)
+    plan = Plan.objects.get(id=ID)
+    status = ""
+    if request.POST:
+        post = request.POST
+        plan.title = post.get('title', '')
+        plan.description = post.get('description', '')
+        plan.starting = post.get('starting', '')
+        plan.destination = post.get('destination', '')
+        plan.total_person = post.get('total_person', '')
+        plan.start_time = post.get('start_time', '')
+        plan.end_time = post.get('end_time', '')
+        plan.save()
+        status = "success"
+
+    content = {"status":status, "username":username, "userid":userid,\
+                "plan":plan}
+    return render(request, "edit_plan.html", content)
+
 @login_required
 def showPlan(request, ID):
     username = request.session.get('username', '')
@@ -171,19 +207,39 @@ def showPlan(request, ID):
         disable = True
     else:
         disable = False
+
+    if mastername==username:
+        is_master = True
+    else:
+        is_master = False
+
     current_person = travelers.count() + 1
 ########untested#############
     status = ''
     if request.POST:
-        if current_person<plan.total_person:
-            status = 'too_many'
-        status = 'success'
-        team.participant.add(userprofile)
-        current_person = travelers.count() + 1
+        if request.POST.has_key('join'):
+            if current_person<plan.total_person:
+                status = 'too_many'
+            status = 'success'
+            team.participant.add(userprofile)
+            current_person = travelers.count() + 1
+        elif request.POST.has_key('exit'):
+            if mastername==username:
+                team.delete()
+                plan.delete()
+                return HttpResponseRedirect('/')
+            elif userprofile in team.participant.all():
+                team.participant.remove(userprofile)
+                status = 'exit_success'
+                current_person = travelers.count() + 1
+                disable = False
+        else:
+            return HttpResponseRedirect('/editPlan/'+str(ID))
+
 #############################
     content = {"username":username, "userid":userid, "plan":plan, \
             "current_person":current_person, "disable":disable, \
-            "status":status}
+            "status":status, "is_master":is_master}
     return render(request, "plan.html", content)
 
 @login_required
@@ -196,7 +252,7 @@ def showTeam(request, ID):
     master = team.master
     print travelers
     content = {"username":username, "userid":userid, "master":master,\
-            "travelers":travelers, "plantitle":plan.title, "teamid":team.id}
+            "travelers":travelers, "plantitle":plan.title, "teamid":team.id, "planid":plan.id}
     return render(request, "team.html", content)
 
 @login_required
