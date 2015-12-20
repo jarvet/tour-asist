@@ -32,6 +32,7 @@ urlpatterns = [
     url(r'^showPlan/(?P<ID>\d+)/$', views.showPlan),
     url(r'^showTeam/(?P<ID>\d+)/$', views.showTeam),
     url(r'^kick/(?P<TID>\d+)/(?P<UID>\d+)$', views.kick), 
+    #url(r'^search/$', views.main),
 #    url(r'^profile/$', views.userProfile),
 ]
 
