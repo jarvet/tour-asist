@@ -29,17 +29,20 @@
                     </div>
                     
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <form class="navbar-form navbar-left" role="search">
+                        <form class="navbar-form navbar-left" role="form" method="post" action="/index/">
+                        {% csrf_token %}
                             <div class="form-group">
 
                                 <select name="SearchMode">
-                                    <option value="Member">查找会员</option>
-                                    <option value="Route">查找路线</option>
+                                    <option value="profile">查找用户</option>
+                                    <option value="starting">查找出发地</option>
+                                    <option value="destination">查找目的地</option>
+                                    <option value="title">查找标题</option>
                                 </select>
 
-                                <input class="form-control" type="text">
+                                <input class="form-control" type="text" name="keyword">
                             </div> 
-                            <button class="btn btn-default" type="submit">
+                            <button class="btn btn-default" type="submit" name="search">
                                 查找
                             </button>
                         </form>

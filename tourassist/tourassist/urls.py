@@ -28,9 +28,11 @@ urlpatterns = [
     url(r'^editProfile/$', views.editProfile),
     url(r'^$', views.loginAndRegister),
     url(r'^addPlan/$', views.addPlan),
+    url(r'^editPlan/(?P<ID>\d+)/$', views.editPlan),
     url(r'^showPlan/(?P<ID>\d+)/$', views.showPlan),
     url(r'^showTeam/(?P<ID>\d+)/$', views.showTeam),
     url(r'^kick/(?P<TID>\d+)/(?P<UID>\d+)$', views.kick), 
+    #url(r'^search/$', views.main),
 #    url(r'^profile/$', views.userProfile),
 ]
 
