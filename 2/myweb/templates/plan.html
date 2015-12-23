@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load birthday_to_age %}
+
+{% block title %}计划信息{% endblock title %}
+
+{% block content2 %}
+    
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+    {% if status == 'success' %}
+        <div class="well">
+            <h2 class="text-success text-center">加入成功</h2>
+        </div>
+    {% elif status == 'too_many' %}
+        <div class="well">
+            <h2 class="text-warning text-center">无法加入</h2>
+        </div>
+    {% elif status == 'exit_success' %}
+        <div class="well">
+            <h2 class="text-warning text-center">退出成功</h2>
+        </div>
+    {% endif %}
+            <h2 class="text-center">
+                {{plan.title}}
+            </h2>
+            <p>
+                <table>
+                    <tr>
+                        <td><h4><strong>【出发地】：</strong></h4></td>
+                        <td><h4>{{plan.starting}}</h4></td>
+                    </tr>
+                    <tr>
+                        <td><h4><strong>【目的地】：</strong></h4></td>
+                        <td><h4>{{plan.destination}}</h4></td>
+                    </tr>
+                    <tr>
+                        <td><h4><strong>【出发日】：</strong></h4></td>
+                        <td><h4>{{plan.start_time}}</h4></td>
+                    </tr>
+                    <tr>
+                        <td><h4><strong>【返程日】：</strong></h4></td>
+                        <td><h4>{{plan.end_time}}</h4></td>
+                    </tr>
+                    <tr>
+                        <td><h4><strong>【当前人数/计划人数】：</strong></h4></td>
+                        <td><h4><a href="/showTeam/{{plan.id}}">{{current_person}}</a>人/{{plan.total_person}}人</h4></td>
+                    </tr>
+                    <!--
+                    <tr>
+                        <td><h4><strong>【可能经过的地方】：</strong></h4></td>
+                    </tr>
+                    <tr><td></td></tr>
+                    -->
+                    <tr>
+                        <td><h4><strong>【计划简介】:</strong></h4></td>
+                    </tr>
+                    <tr><td><h4>{{plan.description}}</h4></td></tr>
+                    
+                </table>
+            </p>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-2">
+                    {% if disable  or status == 'success' %}
+                        <form role="form" method="post">
+                        {% csrf_token %}
+                            <button class="btn btn-default" type="submit" name="exit">
+                                退出
+                            </button>
+                        </form>
+                    {% else %}
+                        <form role="form" method="post">
+                        {% csrf_token %}
+                            <button class="btn btn-default" type="submit" name="join">
+                                加入
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+                <div class="col-md-2">
+                    {% if is_master %}
+                        <form role="form" method="post">
+                        {% csrf_token %}
+                            <button class="btn btn-default" type="submit" name="edit">
+                                编辑
+                            </button>
+                        </form>
+                    {% endif %}
+
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-default" type="button" onclick="javascript:window.location.href='/index/'">
+                        返回
+                    </button>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+
+        </div>
+        <div class="col-md-4">
+        </div>
+    </div>
+</div>
+{% endblock content2 %}

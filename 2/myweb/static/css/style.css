@@ -1,0 +1,33 @@
+/* Empty CSS file for your own CSS*/
+body{
+    background-image: url('/media/image/login_page.jpg');
+    background-repeat: no-repeat;
+    background-size: 120% 120%;
+    background-attachment: fixed;
+}
+
+#profile-plan-table
+  {
+  font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+  width:100%;
+  border-collapse:collapse;
+
+  }
+
+#profile-plan-table td, #profile-plan-table th 
+  {
+  font-size:1em;
+  border:1px solid rgb(43,163,213);
+  padding:3px 7px 2px 7px;
+  height: 50px;
+  }
+
+#profile-plan-table th 
+  {
+  font-size:1.1em;
+  text-align:left;
+  padding-top:5px;
+  padding-bottom:4px;
+  background-color:rgb(61,191,239);
+  color:#ffffff;
+  }

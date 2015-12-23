@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}队伍信息{% endblock title %}
+
+{% block content2 %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+            <h2 class="text-center">
+                {{plantitle}}
+            </h2>
+            <p>
+                <table class="table">
+                    <tr>
+                        <th><h4><strong>【队  长】</strong></h4></th>
+                        <th><h4><strong>【邮  箱】</strong></h4></th>      
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="/showProfile/{{master.user.id}}">
+                            <img  src="{{master.avatar }}" width="75px" height="75px"/>
+                            <h4>{{master.user.username}}</h4>
+                            </a>
+                        </td>
+                        <td><h4><a href="mailto:{{master.user.email}}">{{master.user.email}}</a></h4></td>
+                    </tr>
+                    <tr>
+                        <th><h4><strong>【队  员】</strong></h4></th>
+                        <th><h4><strong>【邮  箱】</strong></h4></th>
+                    </tr>
+                    {% for t in travelers %}
+                    <tr>
+                        <td>
+                            <a href="/showProfile/{{t.user.id}}"><img  src="{% url 'media' t.avatar %}" width="75px" height="75px"/>
+                            <h4>{{t.user.username}}</h4></a></td>
+                        <td><h4><a href="mailto:{{t.user.email}}">{{t.user.email}}</a></h4></td>
+                        {% if username == master.user.username %}
+                        <td><a href="/kick/{{teamid}}/{{t.user.id}}" class="btn btn-danger btn-xs" role="button">踢出</a></td>
+                        {% endif %}
+                    </tr>          
+                    {% endfor %}          
+                </table>
+            </p>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-2"></div>
+                <div class="col-md-2">
+                    <button class="btn btn-default" type="button" onclick="javascript:window.location.href='/showPlan/{{planid}}'">
+                        返回
+                    </button>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+
+        </div>
+        <div class="col-md-4">
+        </div>
+    </div>
+</div>
+{% endblock content2 %}
