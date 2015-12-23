@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}用户信息{% endblock title %}
+
+{% block content2 %}
+    
+<div class="container-fluid">
+    <div class="row">
+    <form role="form" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+        <div class="col-md-4"></div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-4">
+                    <p>
+                    <img  src="{% url 'media' userprofile.avatar %}" width="175px" height="175px"/>
+                    </p>
+                    <p>
+                    <input type="file" name="img" id="id_img" style="width:175px">
+                </p>
+                </div>
+                <div class="col-md-8">
+                    <p>
+                        <table>
+                            <tr><td><h4><strong>用户名：</strong>{{user.username}}</h4></td></tr>
+                            <tr><td><h4><strong>邮  箱：</strong>{{user.email}}</h4></td></tr>
+                            <tr><td>
+                                <h4><strong>所在地：</strong></h4>
+                                <input id="location" type="text" required name="new_location" value="{{userprofile.location}}">
+                            </td></tr>
+                            <tr><td><h4>
+                                <strong>性  别：</strong>
+                                <select name="new_sex" value="{{userprofile.sex}}">
+                                <option value="男">男</option>
+                                <option value="女">女</option>
+                                </select>  
+                            </td></tr>  
+                            <tr><td>
+                                <h4><strong>生  日：</strong></h4>
+                                <input id="age" type="date" required name="new_birthday" value="{{userprofile.birthday|date:"Y-m-d"}}">
+                            </td></tr>  
+  
+                        </table>
+
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>
+                        往期出行计划：
+                    </h3>
+                </div>
+                <div class="col-md-4">
+                    <p>
+                        <table class="table table-bordered">
+                            {% if used_plans %}
+                                {% for p in used_plans %}
+                                    <tr><td><a href="">{{p.title}}</a></td></tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr><td>无</td></tr>
+                            {% endif %}
+                        </table>
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>
+                        未来出行计划：
+                    </h3>
+                </div>
+                <div class="col-md-4">
+                    <p>
+                        <table class="table table-bordered">
+                            {% if using_plans %}
+                                {% for p in using_plans %}
+                                    <tr><td><a href="">{{p.title}}</a></td></tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr><td>无</td></tr>
+                            {% endif %}
+                        </table>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <button class="btn btn-default btn-block" type="submit">
+                        保存
+                    </button>
+                        
+                   
+                </div>
+                <div class="col-md-4">
+                    <button class="btn btn-default btn-block" type="button" onclick="javascript:history.back(-1)">
+                        返回
+                    </button>
+                </div>
+            </div>
+
+        </div> 
+    </form>
+    </div>
+</div>
+
+{% endblock content2 %}

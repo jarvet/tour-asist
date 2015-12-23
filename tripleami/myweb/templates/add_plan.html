@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}添加计划{% endblock title %}
+
+{% block content %}
+	
+<div class="container-fluid">
+	<div class="row">
+<div class="col-md-4"></div>
+<div class="col-md-4">
+	{% if status == 'success' %}
+		<div class="well">
+			<h2 class="text-success text-center"> 计划添加成功！</h2>
+		</div>
+		
+	{% endif %}
+	<form role="form" method="post">
+	{% csrf_token %}
+		<div class="form-group">
+			<label for="PlanTitle">
+				计划名称
+			</label>
+			<input class="form-control" id="PlanTitle" type="text" required name="title">
+		</div>
+
+		<div class="form-group">
+			<label for="Starting">
+				出发地
+			</label>
+			<input class="form-control" id="Starting" type="text" required name="starting">
+		</div>
+
+		<div class="form-group">
+			<label for="Destination">
+				目的地
+			</label>
+			<input class="form-control" id="Destination" type="text" required name="destination">
+		</div>
+
+		<div class="form-group">
+			<label for="StartDate">
+				出发日
+			</label>
+			<input class="form-control" id="StartDate" type="date" required name="start_time">
+		</div>
+
+		<div class="form-group">
+			<label for="BackDate">
+				返程日
+			</label>
+			<input class="form-control" id="BackDate" type="date" required name="end_time">
+		</div>
+
+		<div class="form-group">
+			<label for="NumOfPeople">
+				计划人数
+			</label>
+			<input class="form-control" id="NumOfPeople" type="number" step="1" min="2" required name="total_person">
+		</div>
+
+		<div class="form-group">
+			<textarea class="col-md-12" required name="description">计划简介</textarea>
+		</div>
+
+		<button class="btn btn-default" type="submit">
+			提交
+		</button>
+	</form>
+</div>
+		
+	</div>
+</div>
+{% endblock content %}
