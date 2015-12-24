@@ -46,20 +46,24 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4">
-                    <h3>
-                        往期出行计划：
-                    </h3>
-                </div>
-                <div class="col-md-4">
+                <div class="col-md-8">
                     <p>
-                        <table class="table table-bordered">
+                        <table id="profile-plan-table">
+                            <th colspan="3"><h4>往期出行计划</h4></th>
                             {% if used_plans %}
                                 {% for p in used_plans %}
-                                    <tr><td><a href="">{{p.title}}</a></td></tr>
+                                    <tr>
+                                        <td><b><a href="/showPlan/{{p.id}}">{{p.title}}</a></b></td>
+                                        <td>{{p.start_time|date:"Y-m-d"}}</td>
+                                        <td>{{p.end_time|date:"Y-m-d"}}</td>
+                                    </tr>
                                 {% endfor %}
                             {% else %}
-                                <tr><td>无</td></tr>
+                                <tr>
+                                    <td>无</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
                             {% endif %}
                         </table>
                     </p>
@@ -67,20 +71,24 @@
             </div>
 
             <div class="row">
-                <div class="col-md-4">
-                    <h3>
-                        未来出行计划：
-                    </h3>
-                </div>
-                <div class="col-md-4">
+                <div class="col-md-8">
                     <p>
-                        <table class="table table-bordered">
+                        <table id="profile-plan-table">
+                            <th colspan="3"><h4>未来出行计划</h4></th>
                             {% if using_plans %}
                                 {% for p in using_plans %}
-                                    <tr><td><a href="">{{p.title}}</a></td></tr>
+                                    <tr>
+                                        <td><b><a href="/showPlan/{{p.id}}">{{p.title}}</a></b></td>
+                                        <td>{{p.start_time|date:"Y-m-d"}}</td>
+                                        <td>{{p.end_time|date:"Y-m-d"}}</td>
+                                    </tr>
                                 {% endfor %}
                             {% else %}
-                                <tr><td>无</td></tr>
+                                <tr>
+                                    <td>无</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
                             {% endif %}
                         </table>
                     </p>
