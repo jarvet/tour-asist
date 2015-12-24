@@ -20,7 +20,7 @@ def main(request):
     plans = Plan.objects.filter(start_time__gte=datetime.date.today())
     userprofiles = UserProfile.objects.annotate(num_teams=Count('master')).order_by('-num_teams')
     if plans.count()>5: plans = plans[:5]
-    if userprofiles.count()>5: userprofiles[:5]
+    if userprofiles.count()>5: userprofiles = userprofiles[:5]
 
     if request.POST and request.POST.has_key('search'):
         post = request.POST

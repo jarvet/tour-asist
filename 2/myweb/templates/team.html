@@ -33,7 +33,7 @@
                     {% for t in travelers %}
                     <tr>
                         <td>
-                            <a href="/showProfile/{{t.user.id}}"><img  src="{% url 'media' t.avatar %}" width="75px" height="75px"/>
+                            <a href="/showProfile/{{t.user.id}}"><img  src="{{ t.avatar }}" width="75px" height="75px"/>
                             <h4>{{t.user.username}}</h4></a></td>
                         <td><h4><a href="mailto:{{t.user.email}}">{{t.user.email}}</a></h4></td>
                         {% if username == master.user.username %}
