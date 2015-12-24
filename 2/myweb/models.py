@@ -21,7 +21,7 @@ class Plan(models.Model):
 
     class Meta:
         #leatest created, nearest start time, nearest end time
-        ordering = ['-create_time', 'start_time', 'end_time']
+        ordering = [ 'start_time', 'end_time','-create_time']
 
 class Team(models.Model):
     master = models.ForeignKey(UserProfile, related_name="master")
