@@ -7,7 +7,7 @@ class UserProfile(models.Model):
     sex = models.CharField(max_length=20)
     location = models.CharField(max_length=100)
     birthday = models.DateField()
-    avatar = models.ImageField(upload_to= './image/', default='http://tripleami-media.stor.sinaapp.com/image/default.jpg')
+    avatar = models.ImageField(upload_to= './image/', default='./image/default.jpg')
 
 class Plan(models.Model):
     title = models.CharField(max_length=255)

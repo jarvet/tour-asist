@@ -18,7 +18,8 @@ def main(request):
     username = request.session.get('username', '')
     userid = request.session.get('userid', '')
     plans = Plan.objects.filter(start_time__gte=datetime.date.today())
-    userprofiles = UserProfile.objects.annotate(num_teams=Count('master')).order_by('-num_teams')
+    userprofiles = UserProfile.objects.annotate(num_teams=Count('master')+Count('participant')).order_by('-num_teams')
+
     if plans.count()>5: plans = plans[:5]
     if userprofiles.count()>5: userprofiles = userprofiles[:5]
 
@@ -220,11 +221,12 @@ def showPlan(request, ID):
     status = ''
     if request.POST:
         if request.POST.has_key('join'):
-            if current_person<plan.total_person:
+            if current_person>=plan.total_person:
                 status = 'too_many'
-            status = 'success'
-            team.participant.add(userprofile)
-            current_person = travelers.count() + 1
+            else:
+                status = 'success'
+                team.participant.add(userprofile)
+                current_person = travelers.count() + 1
         elif request.POST.has_key('exit'):
             if mastername==username:
                 team.delete()
